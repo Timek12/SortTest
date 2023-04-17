@@ -5,6 +5,8 @@
 #include "assert.h"
 #include "test_framework.h"
 
+
+
 #define MAX_TESTS 10
 
 int num_of_test_cases = 0;
@@ -22,15 +24,15 @@ int is_file_type(const char* filename, const char* suffix) {
     return strcmp(end, suffix) == 0;
 }
 
-void add_test_case(test_func_t func, const char *filename, int **input_data, int **expected_data, int input_size)
+test_case_t* add_test_case(test_func_t func, const char *filename, int *input_data, int *expected_data, int input_size)
 {
     // check for invalid data
     if(filename == NULL || input_data == NULL || expected_data == NULL || num_of_test_cases > MAX_TESTS)
-        return;
+        return NULL;
 
     test_case_t *test = malloc(sizeof(test_case_t));
     if(test == NULL)
-        return;
+        return NULL;
 
     test->name = filename;
     test->func = func;
@@ -42,6 +44,7 @@ void add_test_case(test_func_t func, const char *filename, int **input_data, int
     *(test_cases + num_of_test_cases) = test;
     num_of_test_cases++;
 
+    return test;
 }
 
 void display_test_case(test_case_t *test_case)
@@ -49,11 +52,26 @@ void display_test_case(test_case_t *test_case)
     if(test_case == NULL)
         return;
 
-    printf("Report for: %s\n", test_case->name);
-    printf("Resulted tab:\n");
-    for(int i=0; i<test_case->input_size; i++){
-        printf("%d ", *(*test_case->resulted_data + i));
+    printf("Report for test case: %s\n", test_case->name);
+    if(test_case->err_code != 0){
+        printf("Function unsuccessfully sorted an array!");
+        printf("Resulted array:\n");
+        for(int i=0; i<test_case->input_size; i++){
+            printf("%d ", *(test_case->resulted_data + i));
+        }
+
+        printf("\nExpected array:\n");
+        for(int i=0; i<test_case->input_size; i++){
+            printf("%d ", *(test_case->excepted_data + i));
+        }
     }
+    else{
+        printf("Function successfully sorted an array!\n");
+    }
+
+    printf("Elapsed time: %lf\n\n\n", test_case->elapsed_time);
+
+
 }
 
 void run_test_case(test_case_t *test_case)
@@ -75,7 +93,7 @@ void run_test_case(test_case_t *test_case)
         return;
     }
 
-    if(my_assert(is_file_type(test_case->name, ".c"), "Assertion failed: file for sorting function should have .c extension\n")){
+    if(my_assert(is_file_type(test_case->name, ".c") == 0, "Assertion failed: file for sorting function should have .c extension\n")){
         test_case->err_code = 1;
         return;
     }
@@ -106,15 +124,15 @@ void run_test_case(test_case_t *test_case)
 
     test_case->elapsed_time = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
 
-    // testing functions that sorts 2d arrays
-    for(int i=0; i<test_case->input_size; i++){
-        for(int j=0; j<test_case->input_size; j++){
-            if(my_assert(*(test_case->resulted_data + i) == *(test_case->excepted_data + i),
-                      "Assertion failed: expected %d, instead got %d at index [%d][%d]\n", *(test_case->resulted_data + i), *(test_case->excepted_data + i), i, j)){
-                test_case->err_code = 2;
-            }
+    for (int i = 0; i < test_case->input_size; i++) {
+        if (my_assert(*(test_case->resulted_data + i) != *(test_case->excepted_data + i),
+                      "Assertion failed: expected %d, instead got %d at index %d\n",
+                      *(test_case->resulted_data + i), *(test_case->excepted_data + i), i)) {
+            test_case->err_code = 2;
         }
     }
+
+    display_test_case(test_case);
 }
 
 void destroy_test_cases(test_case_t **test_cases_array){

@@ -4,7 +4,7 @@
 
 int my_assert(int condition, const char *message, ...)
 {
-    if(!condition){
+    if(condition){
         va_list args;
         va_start(args, message);
         vfprintf(stderr, message, args);
