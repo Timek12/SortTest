@@ -1,0 +1,17 @@
+# ninja log v5
+0	234	7033182892989513	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+3	285	7033503093603143	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+3	263	7033503714669328	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+264	391	7033503715889759	test_framework.exe	10c86d4506234e90
+3	274	7033504037611539	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+275	413	7033504038928943	test_framework.exe	10c86d4506234e90
+3	283	7033504694416126	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+283	432	7033504695852341	test_framework.exe	10c86d4506234e90
+4	294	7033505535156923	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+295	451	7033505536649641	test_framework.exe	10c86d4506234e90
+4	261	7033505854625159	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+262	406	7033505856010884	test_framework.exe	10c86d4506234e90
+4	270	7033506497847080	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+270	412	7033506499218624	test_framework.exe	10c86d4506234e90
+2	250	7033507426262333	CMakeFiles/test_framework.dir/main.c.obj	789314ed3f8796ca
+250	389	7033507427602178	test_framework.exe	10c86d4506234e90
